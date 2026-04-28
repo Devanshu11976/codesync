@@ -7,6 +7,7 @@ const { WebSocketServer, WebSocket } = require('ws');
 const { v4: uuidv4 } = require('uuid');
 const axios = require('axios');
 const cors = require('cors');
+const path = require('path');
 const { apply, transform, invert } = require('./ot/operations');
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -308,8 +309,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Serve static files from React build
+app.use(express.static(path.join(__dirname, 'client/build')));
+
 // Health check
 app.get('/health', (_req, res) => res.json({ ok: true, rooms: rooms.size }));
+
+// Catch-all route to serve React app
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
 
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
