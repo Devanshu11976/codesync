@@ -6,7 +6,9 @@ import Sidebar from '../components/Sidebar';
 import Toolbar from '../components/Toolbar';
 import OutputPanel from '../components/OutputPanel';
 
-const WS_URL = process.env.REACT_APP_WS_URL || 'ws://localhost:8080';
+const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+const host = window.location.host;
+const WS_URL = process.env.REACT_APP_WS_URL || `${protocol}//${host}`;
 const FLASH_DURATION = 800;
 
 const LANG_MONACO_MAP = {
