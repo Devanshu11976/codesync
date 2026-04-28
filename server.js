@@ -316,7 +316,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 app.get('/health', (_req, res) => res.json({ ok: true, rooms: rooms.size }));
 
 // Catch-all route to serve React app
-app.get('(.*)', (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
