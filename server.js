@@ -315,7 +315,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 // Health check
 app.get('/health', (_req, res) => res.json({ ok: true, rooms: rooms.size }));
 
-// Catch-all route to serve React app
+// Catch-all route to serve React app (Express 5 compatible)
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
@@ -431,5 +431,5 @@ wss.on('connection', (ws) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`🚀 Collab-editor server running on ws://localhost:${PORT}`);
+  console.log(`🚀 Collab-editor server running on port ${PORT}`);
 });
