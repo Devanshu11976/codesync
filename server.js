@@ -317,7 +317,13 @@ app.get('/health', (_req, res) => res.json({ ok: true, rooms: rooms.size }));
 
 // Catch-all route to serve React app (Express 5 compatible)
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  const indexPath = path.join(__dirname, 'client', 'build', 'index.html');
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      console.error('SendFile Error:', err);
+      res.status(500).send('Server Error: client/build/index.html not found. Path: ' + indexPath);
+    }
+  });
 });
 
 const server = http.createServer(app);
